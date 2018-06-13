@@ -8,10 +8,13 @@ Open terminal and run gulp
 Use Live Server extension in VS Code, right click on index.html, Open with Live Server
 
 # Git - recommended SSH using the set key
-Set the new repo name
+###Set the new repo name
+```
 git remote set-url git@bitbucket.org:emanuilov/new-repo-name.git
-Check the current repo
+```
+###Check the current repo
+```
 git remote -v
-
+```
 # Edits
 The only place that needs edits is package.json
