@@ -10,7 +10,7 @@ Use Live Server extension in VS Code, right click on index.html, Open with Live 
 # Git - recommended SSH using the set key
 ###Set the new repo name
 ```
-git remote set-url git@bitbucket.org:emanuilov/new-repo-name.git
+git remote set-url origin git@bitbucket.org:emanuilov/new-repo-name.git
 ```
 ###Check the current repo
 ```
