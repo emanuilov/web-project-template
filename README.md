@@ -16,5 +16,10 @@ git remote set-url origin git@bitbucket.org:emanuilov/new-repo-name.git
 ```
 git remote -v
 ```
+###Merge with the new after the change
+```
+git pull --allow-unrelated-histories
+```
+
 # Edits
 The only place that needs edits is package.json
