@@ -1,23 +1,24 @@
 /*eslint no-console: ["error", { allow: ["log","warn","error"] }] */
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
-var imagemin = require('gulp-imagemin');
-var pngquant = require('imagemin-pngquant');
-var eslint = require('gulp-eslint');
-var babel = require('gulp-babel');
-var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
-var jasmine = require('gulp-jasmine-browser');
-var clean = require('gulp-clean');
+const gulp = require('gulp'),
+	watch = require('gulp-watch'),
+	sass = require('gulp-sass'),
+	autoprefixer = require('gulp-autoprefixer'),
+	imagemin = require('gulp-imagemin'),
+	pngquant = require('imagemin-pngquant'),
+	eslint = require('gulp-eslint'),
+	babel = require('gulp-babel'),
+	concat = require('gulp-concat'),
+	sourcemaps = require('gulp-sourcemaps'),
+	uglify = require('gulp-uglify'),
+	jasmine = require('gulp-jasmine-browser'),
+	clean = require('gulp-clean');
 
 gulp.task('watch', function () {
-	gulp.watch('./src/**/*.php', gulp.parallel('php'));
-	gulp.watch('./src/**/*.html', gulp.parallel('copy-html'));
-	gulp.watch('./src/js/**/*.js', gulp.parallel('js-lint', 'scripts'));
-	gulp.watch('./src/sass/**/*.scss', gulp.parallel('styles'));
-	gulp.watch('./src/img/*', gulp.parallel('minify-images'));
+	watch('./src/**/*.php', gulp.parallel('php'));
+	watch('./src/**/*.html', gulp.parallel('copy-html'));
+	watch('./src/js/**/*.js', gulp.parallel('js-lint', 'scripts'));
+	watch('./src/sass/**/*.scss', gulp.parallel('styles'));
+	watch('./src/img/*', gulp.parallel('minify-images'));
 });
 
 gulp.task('copy-html', function () {
