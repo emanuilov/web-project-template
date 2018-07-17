@@ -15,7 +15,7 @@ var clean = require('gulp-clean');
 gulp.task('watch', function () {
 	gulp.watch('./src/**/*.php', gulp.parallel('php'));
 	gulp.watch('./src/**/*.html', gulp.parallel('copy-html'));
-	gulp.watch('./src/js/**/*.js', gulp.parallel('scripts'));
+	gulp.watch('./src/js/**/*.js', gulp.parallel('js-lint', 'scripts'));
 	gulp.watch('./src/sass/**/*.scss', gulp.parallel('styles'));
 	gulp.watch('./src/img/*', gulp.parallel('minify-images'));
 });
@@ -30,12 +30,25 @@ gulp.task('php', function () {
 		.pipe(gulp.dest('./dist'));
 });
 
-gulp.task('scripts', function () {
-	gulp.src(['./src/js/**/*.js', '!node_modules/**'])
-		//Lint
+gulp.task('js-lint', function () {
+	return gulp.src(['./src/js/**/*.js', '!node_modules/**'])
 		.pipe(eslint())
 		.pipe(eslint.format())
-		.pipe(eslint.failAfterError())
+		.pipe(eslint.failAfterError());
+});
+
+gulp.task('js-tests', function () {
+	return gulp.src(['./tests/js/**/*.js'])
+		.pipe(jasmine.specRunner({
+			console: true
+		}))
+		.pipe(jasmine.headless({
+			driver: 'phantomjs'
+		}));
+});
+
+gulp.task('scripts', function () {
+	gulp.src(['./src/js/**/*.js', '!node_modules/**'])
 		.pipe(babel()) //Enable old browser support
 		.pipe(concat('script.js'))
 		.pipe(gulp.dest('./dist/js'));
@@ -43,10 +56,6 @@ gulp.task('scripts', function () {
 
 gulp.task('scripts-dist', function () {
 	gulp.src(['./src/js/**/*.js', '!node_modules/**'])
-		//Lint
-		.pipe(eslint())
-		.pipe(eslint.format())
-		.pipe(eslint.failAfterError())
 		.pipe(babel()) //Enable old browser support
 		.pipe(sourcemaps.init())
 		.pipe(concat('script.js'))
@@ -73,21 +82,11 @@ gulp.task('minify-images', function () {
 		.pipe(gulp.dest('./dist/img'));
 });
 
-gulp.task('js-tests', function () {
-	return gulp.src(['./tests/js/**/*.js'])
-		.pipe(jasmine.specRunner({
-			console: true
-		}))
-		.pipe(jasmine.headless({
-			driver: 'phantomjs'
-		}));
-});
-
 gulp.task('clean', function () {
 	return gulp.src('./dist', {
 		read: false
 	}).pipe(clean());
 });
 
-gulp.task('default', gulp.series('clean', gulp.parallel('php', 'copy-html', 'scripts', 'styles', 'minify-images', 'watch')));
-gulp.task('export', gulp.series('clean', gulp.parallel('php', 'copy-html', 'scripts-dist', 'styles', 'minify-images'), 'js-tests'));
+gulp.task('default', gulp.series('clean', gulp.parallel('php', 'copy-html', 'js-lint', 'scripts', 'styles', 'minify-images', 'watch')));
+gulp.task('export', gulp.series('clean', gulp.parallel('php', 'copy-html', 'js-lint', 'scripts-dist', 'styles', 'minify-images'), 'js-tests'));
