@@ -1,6 +1,27 @@
 # Web Project Template
 This template has everything you need to start an HTML/SCSS/JavaScript/PHP web project right away
 
+# Features
+* PHP
+   * Linting - phplint
+   * Testing - phpunit
+   * Debugging - xdebug
+* ES6
+  * Linting - eslint + prettifier
+  * Testing - jest
+  * Browserify + babelify
+  * Sourcemaps
+  * Minification
+* Debuging
+  * Live reload
+    *   On change of PHP/HTML/JS the page will be reloaded
+    *  On change of SCSS and Images the content on the page will be replaced without reload of the whole page
+    
+  * Breakpoints through VS Code(for PHP)/Chrome(for ES6)
+* Image compression
+* SCSS compiling
+
+
 # Prerequisites
 1. [XAMPP](https://www.apachefriends.org/download.html) or any other web server
 2. Add the directory of the php executable to your path
@@ -8,10 +29,15 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 4. [NPM](https://nodejs.org/en/)
 5. Open this directory and a terminal and run `npm install -g yarn;npm install;composer require --dev phpunit/phpunit ^8`
 
-# Running the project
-1. Run `gulp`, this will start a PHP server and enable live reload for the project.
-
-#### Live reload - on change of CSS/Images the data will be replaced on the page, on change of PHP/HTML/JS the page will be reloaded
+# Starting a new project
+1. Set the correct project name, version and git link in `package.json`
+2. Set the correct repository for git
+   * Change the repository `git remote set-url origin git@bitbucket.org:emanuilov/new-repository.git
+`
+   * Verify the change `git remote -v`
+   * Merge with the new repository `git pull --allow-unrelated-histories`
+3. To start the project run `gulp`, this will start a PHP server and enable live reload for the project.
+4. To start debugging follow the next section
 
 # Debugging in VS Code
 1. Install [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
@@ -20,26 +46,9 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 4. Follow the guide to in PHP Debug's overview section to enable the PHP debugging for your PHP server
 5. Run the `Server + Debugging` option from the debugger(you should not run gulp before that), the server takes time to start so when chrome opens up you will see an error message - "This site can’t be reached"
 
-# Git - recommended SSH using the set key
-### Set the new repo name
-```
-git remote set-url origin git@bitbucket.org:emanuilov/new-repo-name.git
-```
-### Check the current repo
-```
-git remote -v
-```
-### Merge with the new after the change
-```
-git pull --allow-unrelated-histories
-```
+# Future plans
 
-### ToDO
-
-- [ ] sFTP deployment trough Git
-- [ ] Working with a remote server
-- [ ] Directory separation when working with frameworks
-- [ ] Lint and test all staged files
-- [x] Linting and testing for PHP & JS
-- [x] Debugging for PHP & JS
-- [x] ES6 & module imports
+1. Directory separation when working with frameworks
+2. Lint and test all staged files
+3. sFTP deployment trough Gulp
+4. Working with a remote server
