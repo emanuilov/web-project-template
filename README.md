@@ -43,7 +43,7 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 2. Disable the `@builtin TypeScript and JavaScript` extension
 3. Install these VS Code extensions: [Debugger for Chrome(for JS)](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) and [PHP Debug](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug)
 4. Follow the guide to in PHP Debug's overview section to enable the PHP debugging for your PHP server
-5. Run the `Server + Debugging` option from the debugger(you should not run gulp before that), the server takes time to start so when chrome opens up you will see an error message - "This site can’t be reached"
+5. Run the `Server + Debugging` option from the debugger(you should not run gulp before that), the server takes time to start so when chrome opens up you will see an error message - "This site can't be reached"
 
 # Future plans
 
