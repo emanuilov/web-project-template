@@ -1,1 +1,12 @@
+# Node
 /node_modules
+
+# Distribution
+/dist
+
+# PHPUnit
+/vendor
+/.phpunit.result.cache
+
+# Jest
+/coverage

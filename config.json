@@ -1,0 +1,19 @@
+{
+	"src": "./dist",
+	"options": {
+		"destination": "/public_html/test",
+		"root": "./dist",
+		"hostname": "domain.com",
+		"username": "domain",
+		"incremental": true,
+		"progress": true,
+		"relative": true,
+		"emptyDirectories": true,
+		"recursive": true,
+		"clean": true,
+		"exclude": [
+			".DS_Store"
+		],
+		"include": []
+	}
+}

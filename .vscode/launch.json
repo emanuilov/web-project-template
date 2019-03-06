@@ -1,0 +1,38 @@
+{
+	"compounds": [
+		{
+			"name": "Server + Debugging",
+			"configurations": [
+				"Gulp",
+				"Launch Chrome",
+				"PHP XDebugger"
+			]
+		}
+	],
+	"configurations": [
+		{
+			"name": "PHP XDebugger",
+			"type": "php",
+			"request": "launch",
+			"port": 9000,
+			"pathMappings": {
+				"${workspaceRoot}/dist": "${workspaceRoot}/src"
+			}
+		},
+		{
+			"type": "chrome",
+			"request": "launch",
+			"name": "Launch Chrome",
+			"url": "http://localhost:8080",
+			"webRoot": "${workspaceFolder}",
+			"breakOnLoad": true,
+			"sourceMaps": true
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Gulp",
+			"program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js"
+		}
+	]
+}

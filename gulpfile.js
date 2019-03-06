@@ -1,93 +1,182 @@
-/*eslint no-console: ["error", { allow: ["log","warn","error"] }] */
-const gulp = require("gulp"),
-	watch = require("gulp-watch"),
-	sass = require("gulp-sass"),
-	autoprefixer = require("gulp-autoprefixer"),
-	imagemin = require("gulp-imagemin"),
-	pngquant = require("imagemin-pngquant"),
-	eslint = require("gulp-eslint"),
-	babel = require("gulp-babel"),
-	concat = require("gulp-concat"),
-	sourcemaps = require("gulp-sourcemaps"),
-	uglify = require("gulp-uglify"),
-	jasmine = require("gulp-jasmine-browser"),
-	clean = require("gulp-clean");
+const gulp = require('gulp'),
+	watch = require('gulp-watch'),
+	del = require('del'),
+	browserSync = require('browser-sync'),
+	// guppy = require('git-guppy'),
+	files = {
+		php: ['./src/**/*.php', '!./src/**/*.spec.php', '!./src/**/*.test.php'],
+		html: './src/**/*.html',
+		scss: './src/sass/**/*.scss',
+		img: './src/img/*'
+	};
+let devMode = true;
 
-gulp.task("watch", function () {
-	watch("./src/**/*.php", gulp.parallel("php"));
-	watch("./src/**/*.html", gulp.parallel("copy-html"));
-	watch("./src/js/**/*.js", gulp.parallel("js-lint", "scripts"));
-	watch("./src/sass/**/*.scss", gulp.parallel("styles"));
-	watch("./src/img/*", gulp.parallel("minify-images"));
+const autoprefixer = require('gulp-autoprefixer'),
+	sass = require('gulp-sass');
+
+const imagemin = require('gulp-imagemin'),
+	pngquant = require('imagemin-pngquant');
+
+const eslint = require('gulp-eslint'),
+	sourceMaps = require('gulp-sourcemaps'),
+	uglify = require('gulp-uglify-es').default,
+	jest = require('gulp-jest').default,
+	glob = require('glob'),
+	browserify = require('browserify'),
+	sourceStream = require('vinyl-source-stream'),
+	buffer = require('vinyl-buffer');
+
+const php = require('gulp-connect-php'),
+	phplint = require('gulp-phplint'),
+	phpunit = require('gulp-phpunit');
+
+gulp.task('watch', function() {
+	watch('./src/**/*.php', gulp.series('lint-php', 'copy-php'));
+	watch(files.html, gulp.series('copy-html'));
+	watch('./src/js/**/*.js', gulp.parallel('lint-js', 'scripts'));
+	watch(files.scss, gulp.series('styles'));
+	watch(files.img, gulp.series('minify-images'));
 });
 
-gulp.task("copy-html", function () {
-	gulp.src("./src/**/*.html")
-		.pipe(gulp.dest("./dist"));
+// Server & Live reload
+gulp.task('browser-sync', function() {
+	// Start PHP Server
+	php.server({ base: 'dist', port: 8010, keepalive: true });
+
+	// Sync
+	browserSync.init({
+		files: './dist/**/*',
+		proxy: '127.0.0.1:8010',
+		port: 8080,
+		open: false,
+		notify: false
+	});
 });
 
-gulp.task("php", function () {
-	return gulp.src("./src/**/*.php")
-		.pipe(gulp.dest("./dist"));
+// Copying
+gulp.task('copy-html', function() {
+	return gulp.src(files.html).pipe(gulp.dest('./dist'));
 });
 
-gulp.task("js-lint", function () {
-	return gulp.src(["./src/js/**/*.js", "!node_modules/**"])
-		.pipe(eslint())
+gulp.task('copy-php', function() {
+	return gulp.src(files.php).pipe(gulp.dest('./dist'));
+});
+
+// JavaScript
+
+gulp.task('scripts', function() {
+	let globString = './src/js/**/!(*.spec.js|*.test.js)';
+	if (!devMode) {
+		globString = './src/js/**/!(*.spec.js|*.test.js|browser-sync.js)';
+	}
+	return browserify({
+		entries: glob.sync(globString, { nodir: true }),
+		transform: [['babelify']]
+	})
+		.transform('babelify')
+		.bundle()
+		.pipe(sourceStream('script.js'))
+		.pipe(buffer())
+		.pipe(sourceMaps.init())
+		.pipe(uglify())
+		.pipe(sourceMaps.write())
+		.pipe(gulp.dest('./dist/js'));
+});
+
+// Conversion - SCSS
+gulp.task('styles', function() {
+	return gulp
+		.src(files.scss)
+		.pipe(sass().on('error', sass.logError))
+		.pipe(
+			autoprefixer({
+				browsers: ['last 5 versions']
+			})
+		)
+		.pipe(gulp.dest('./dist/css'))
+		.pipe(browserSync.stream({ match: '**/*.css' }));
+});
+
+// Images
+gulp.task('minify-images', function() {
+	return gulp
+		.src(files.img)
+		.pipe(
+			imagemin({
+				progressive: true,
+				use: [pngquant()]
+			})
+		)
+		.pipe(gulp.dest('./dist/img'))
+		.pipe(browserSync.stream({ match: './dist/img/**/*' }));
+});
+
+// Linting, Testing
+gulp.task('lint-js', function() {
+	return gulp
+		.src(['./src/js/**/*'])
+		.pipe(eslint({ fix: true }))
 		.pipe(eslint.format())
 		.pipe(eslint.failAfterError());
 });
 
-gulp.task("js-tests", function () {
-	return gulp.src(["./tests/js/**/*.js"])
-		.pipe(jasmine.specRunner({
-			console: true
-		}))
-		.pipe(jasmine.headless({
-			driver: "phantomjs"
-		}));
+gulp.task('test-js', function() {
+	return gulp.src('./').pipe(jest());
 });
 
-gulp.task("scripts", function () {
-	gulp.src(["./src/js/**/*.js", "!node_modules/**"])
-		.pipe(babel()) //Enable old browser support
-		.pipe(concat("script.js"))
-		.pipe(gulp.dest("./dist/js"));
+gulp.task('lint-php', function() {
+	return gulp.src(['./src/**/*.php', '!./src/js', '!./src/img', '!./src/css']).pipe(phplint());
 });
 
-gulp.task("scripts-dist", function () {
-	gulp.src(["./src/js/**/*.js", "!node_modules/**"])
-		.pipe(babel()) //Enable old browser support
-		.pipe(sourcemaps.init())
-		.pipe(concat("script.js"))
-		.pipe(uglify()) //Minify
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest("./dist/js"));
+gulp.task('test-php', function() {
+	var options = { debug: false };
+	return gulp.src('phpunit.xml').pipe(phpunit('.\\vendor\\bin\\phpunit', options));
 });
 
-gulp.task("styles", function () {
-	gulp.src("./src/sass/**/*.scss")
-		.pipe(sass().on("error", sass.logError))
-		.pipe(autoprefixer({
-			browsers: ["last 5 versions"]
-		}))
-		.pipe(gulp.dest("./dist/css"));
+// Set the mode to production(not development)
+gulp.task('set-mode', function() {
+	devMode = false;
+	return gulp.src('./');
 });
 
-gulp.task("minify-images", function () {
-	return gulp.src("./src/img/*")
-		.pipe(imagemin({
-			progressive: true,
-			use: [pngquant()]
-		}))
-		.pipe(gulp.dest("./dist/img"));
+// Cleaning
+gulp.task('clean', function() {
+	del.sync(['dist/']);
+	return gulp.src('/');
 });
 
-gulp.task("clean", function () {
-	return gulp.src("./dist", {
-		read: false
-	}).pipe(clean());
-});
-
-gulp.task("default", gulp.series("clean", gulp.parallel("php", "copy-html", "js-lint", "scripts", "styles", "minify-images", "watch")));
-gulp.task("export", gulp.series("clean", gulp.parallel("php", "copy-html", "js-lint", "scripts-dist", "styles", "minify-images"), "js-tests"));
+gulp.task(
+	'default',
+	gulp.series(
+		'clean',
+		gulp.parallel(
+			'copy-php',
+			'copy-html',
+			'lint-js',
+			'lint-php',
+			'scripts',
+			'styles',
+			'minify-images',
+			'watch',
+			'browser-sync'
+		)
+	)
+);
+gulp.task(
+	'build',
+	gulp.series(
+		'clean',
+		'set-mode',
+		gulp.parallel(
+			'copy-php',
+			'copy-html',
+			'lint-js',
+			'lint-php',
+			'scripts',
+			'styles',
+			'minify-images'
+		),
+		'test-js',
+		'test-php'
+	)
+);
