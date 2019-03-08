@@ -20,6 +20,7 @@
 		"@babel/plugin-transform-runtime": "^7.3.4",
 		"@babel/preset-env": "^7.3.4",
 		"@babel/register": "^7.0.0",
+		"@babel/runtime": "^7.3.4",
 		"babel-eslint": "^10.0.1",
 		"babel-jest": "^24.1.0",
 		"babel-plugin-jest-hoist": "^24.2.0",
@@ -60,8 +61,7 @@
 		"puppeteer": "^1.12.2",
 		"tunnel-agent": "^0.6.0",
 		"vinyl-buffer": "^1.0.1",
-		"vinyl-source-stream": "^2.0.0",
-		"@babel/runtime": "^7.3.4"
+		"vinyl-source-stream": "^2.0.0"
 	},
 	"dependencies": {}
 }
