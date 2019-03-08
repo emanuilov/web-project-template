@@ -14,7 +14,7 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
   * Minification
 * Debuging
   * Live reload
-    *   On change of PHP/HTML/JS the page will be reloaded
+    *  On change of PHP/HTML/JS the page will be reloaded
     *  On change of SCSS and Images the content on the page will be replaced without reload of the whole page
     
   * Breakpoints through VS Code(for PHP)/Chrome(for ES6)
@@ -32,10 +32,9 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 # Starting a new project
 1. Set the correct project name, version and git link in `package.json`
 2. Set the correct repository for git
-   * Change the repository `git remote set-url origin git@bitbucket.org:emanuilov/new-repository.git
-`
-   * Verify the change `git remote -v`
-   * Merge with the new repository `git pull --allow-unrelated-histories`
+    * Change the repository `git remote set-url origin git@bitbucket.org:emanuilov/new-repository.git`
+    * Verify the change `git remote -v`
+    * Merge with the new repository `git pull --allow-unrelated-histories`
 3. To start the project run `gulp`, this will start a PHP server and enable live reload for the project.
 4. To start debugging follow the next section
 
@@ -44,7 +43,7 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 2. Disable the `@builtin TypeScript and JavaScript` extension
 3. Install these VS Code extensions: [Debugger for Chrome(for JS)](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) and [PHP Debug](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug)
 4. Follow the guide to in PHP Debug's overview section to enable the PHP debugging for your PHP server
-5. Run the `Server + Debugging` option from the debugger(you should not run gulp before that), the server takes time to start so when chrome opens up you will see an error message - "This site can’t be reached"
+5. Run the `Server + Debugging` option from the debugger(you should not run gulp before that), the server takes time to start so when chrome opens up you will see an error message - "This site can't be reached"
 
 # Future plans
 
