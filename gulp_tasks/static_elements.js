@@ -5,6 +5,7 @@ import sass from 'gulp-sass';
 import imagemin from 'gulp-imagemin';
 import pngquant from 'imagemin-pngquant';
 import sync from './sync';
+import stylelint from 'gulp-stylelint';
 
 // HTML
 gulp.task('copy-html', function() {
@@ -15,6 +16,11 @@ gulp.task('copy-html', function() {
 gulp.task('styles', function() {
 	return gulp
 		.src(mainConfig.files.scss)
+		.pipe(
+			stylelint({
+				reporters: [{ formatter: 'string', console: true }]
+			})
+		)
 		.pipe(sass().on('error', sass.logError))
 		.pipe(
 			autoprefixer({
