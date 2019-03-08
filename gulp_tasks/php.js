@@ -5,12 +5,14 @@ import phpunit from 'gulp-phpunit';
 
 // General
 gulp.task('copy-php', function() {
-	return gulp.src(mainConfig.files.php).pipe(gulp.dest('./dist'));
+	return gulp
+		.src(mainConfig.files.phpLogic.concat(mainConfig.files.phpTests))
+		.pipe(gulp.dest('./dist'));
 });
 
 // Linting, Testing
 gulp.task('lint-php', function() {
-	return gulp.src(['./src/**/*.php', '!./src/js', '!./src/img', '!./src/css']).pipe(phplint());
+	return gulp.src(mainConfig.files.phpLogic).pipe(phplint());
 });
 
 gulp.task('test-php', function() {

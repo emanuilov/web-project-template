@@ -4,8 +4,9 @@ import watch from 'gulp-watch';
 
 // Main config
 const files = {
-	php: ['./src/**/*.php', '!./src/**/*.spec.php', '!./src/**/*.test.php'],
-	html: './src/**/*.html',
+	phpLogic: ['./src/**/*.php', '!./src/js', '!./src/img', '!./src/css'],
+	phpTests: ['!./src/**/*.spec.php', '!./src/**/*.test.php'],
+	html: ['./src/**/*.html', '!./src/js', '!./src/img', '!./src/css'],
 	scss: './src/sass/**/*.scss',
 	img: './src/img/*'
 };
