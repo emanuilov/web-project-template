@@ -18,7 +18,8 @@ gulp.task('styles', function() {
 		.src(mainConfig.files.scss)
 		.pipe(
 			stylelint({
-				reporters: [{ formatter: 'string', console: true }]
+				reporters: [{ formatter: 'string', console: true }],
+				fix: true
 			})
 		)
 		.pipe(sass().on('error', sass.logError))
