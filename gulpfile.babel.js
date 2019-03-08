@@ -45,7 +45,6 @@ gulp.task(
 	'build',
 	gulp.series(
 		'clean',
-		'disable-devmode',
 		gulp.parallel(
 			'copy-php',
 			'copy-html',

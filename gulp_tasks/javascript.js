@@ -7,11 +7,11 @@ import glob from 'glob';
 import browserify from 'browserify';
 import sourceStream from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
-import devMode from './maintanance';
+import process from 'process';
 
 gulp.task('scripts', function() {
 	let globString = './src/js/**/!(*.spec.js|*.test.js)';
-	if (!devMode) {
+	if (process.argv[2] === 'build') {
 		globString = './src/js/**/!(*.spec.js|*.test.js|browser-sync.js)';
 	}
 	return browserify({
