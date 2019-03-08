@@ -1,8 +1,7 @@
 import gulp from 'gulp';
 import browserSync from 'browser-sync';
-import guppy from 'git-guppy';
 import php from 'gulp-connect-php';
-import minimatch from 'minimatch';
+import process from 'process';
 
 // Server & Live reload
 gulp.task('browser-sync', function() {
@@ -19,17 +18,13 @@ gulp.task('browser-sync', function() {
 	});
 });
 
-gulp.task(
-	'pre-commit',
-	guppy().src('pre-commit', function(stagedFiles) {
-		return gulp.src(stagedFiles).pipe();
-	})
-);
+gulp.task('test', function() {
+	let filePaths = null;
+	if (process.argv.length > 4) {
+		filePaths = process.argv.slice(3, process.argv.length);
+	}
+	// Refactor the code - the gulp functions to execute class methods, the methods to accept the paths, filePaths is an array of staged files
+	console.log(filePaths);
+});
 
-function filterByExtension(fileList, extension) {
-	const glob = '**/**/*.' + extension;
-	const filteredList = fileList.filter(file => minimatch(file, glob)).map(file => file);
-	return filteredList;
-}
-
-module.exports = { browserSync: browserSync, filterByExtension: filterByExtension };
+module.exports = { browserSync: browserSync };
