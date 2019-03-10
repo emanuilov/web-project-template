@@ -3,6 +3,7 @@ import sass from 'gulp-sass';
 import autoprefixer from 'gulp-autoprefixer';
 import stylelint from 'gulp-stylelint';
 import browserSync from 'browser-sync';
+import Distributing from '../Distributing';
 
 export default class SCSSTasks {
 	constructor(dist, files) {
@@ -24,7 +25,11 @@ export default class SCSSTasks {
 	}
 
 	lint() {
-		return gulp.src(this.files.scss).pipe(
+		let files = new Distributing(this.dist).getStagedFilePaths();
+		if (files == null) {
+			files = this.files.scss;
+		}
+		return gulp.src(files).pipe(
 			stylelint({
 				reporters: [{ formatter: 'string', console: true }],
 				fix: true
