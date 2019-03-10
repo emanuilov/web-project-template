@@ -8,10 +8,12 @@ import sourceStream from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
 import process from 'process';
 import jest from 'gulp-jest';
+import Distributing from '../Distributing';
 
 export default class JSTasks {
-	constructor(dist) {
+	constructor(dist, files) {
 		this.dist = dist;
+		this.files = files;
 	}
 
 	transform() {
@@ -30,8 +32,12 @@ export default class JSTasks {
 	}
 
 	lint() {
+		let files = new Distributing(this.dist).getStagedFilePaths();
+		if (files == null) {
+			files = this.files.js;
+		}
 		return gulp
-			.src(['./src/js/**/*'])
+			.src(files)
 			.pipe(eslint({ fix: true }))
 			.pipe(eslint.format())
 			.pipe(eslint.failAfterError());
@@ -43,8 +49,8 @@ export default class JSTasks {
 
 	getGlobString() {
 		if (process.argv[2] === 'build') {
-			return './src/js/**/!(*.spec.js|*.test.js|browser-sync.js)';
+			return this.files.without.jsTestsSync;
 		}
-		return './src/js/**/!(*.spec.js|*.test.js)';
+		return this.files.without.jsTests;
 	}
 }

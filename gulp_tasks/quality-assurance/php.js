@@ -10,7 +10,7 @@ export default class PHPTasks {
 	}
 
 	copy() {
-		return gulp.src(this.files.phpLogic.concat(this.files.phpTests)).pipe(gulp.dest(this.dist));
+		return gulp.src(this.files.php.concat(this.files.without.phpTests)).pipe(gulp.dest(this.dist));
 	}
 
 	lint() {

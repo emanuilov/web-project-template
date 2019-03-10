@@ -11,16 +11,20 @@ import watch from 'gulp-watch';
 const mainConfig = {
 		dist: './dist',
 		files: {
-			phpLogic: ['./src/**/*.php', '!./src/js', '!./src/img', '!./src/css'],
-			phpTests: ['!./src/**/*.spec.php', '!./src/**/*.test.php'],
+			php: ['./src/**/*.php', '!./src/js', '!./src/img', '!./src/css'],
 			html: ['./src/**/*.html', '!./src/js', '!./src/img', '!./src/css'],
 			js: './src/js/**/*.js',
 			scss: './src/sass/**/*.scss',
-			img: './src/img/*'
+			img: './src/img/*',
+			without: {
+				phpTests: ['!./src/**/*.spec.php', '!./src/**/*.test.php'],
+				jsTests: './src/js/**/!(*.spec.js|*.test.js)',
+				jsTestsSync: './src/js/**/!(*.spec.js|*.test.js|browser-sync.js)'
+			}
 		}
 	},
 	PHP = new PHPTasks(mainConfig.dist, mainConfig.files),
-	JavaScript = new JSTasks(mainConfig.dist),
+	JavaScript = new JSTasks(mainConfig.dist, mainConfig.files),
 	HTML = new HTMLTasks(mainConfig.dist, mainConfig.files),
 	SCSS = new SCSSTasks(mainConfig.dist, mainConfig.files),
 	Images = new ImageTasks(mainConfig.dist, mainConfig.files),
@@ -77,7 +81,7 @@ gulp.task('minify-images', function() {
 
 // Debugging
 gulp.task('watch', function() {
-	watch(mainConfig.files.phpLogic, gulp.series('lint-php', 'copy-php'));
+	watch(mainConfig.files.php, gulp.series('lint-php', 'copy-php'));
 	watch(mainConfig.files.html, gulp.series('copy-html'));
 	watch(mainConfig.files.html, gulp.parallel('lint-js', 'transform-js'));
 	watch(mainConfig.files.scss, gulp.series('transform-scss'));
