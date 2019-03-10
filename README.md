@@ -12,14 +12,20 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
   * Browserify + babelify
   * Sourcemaps
   * Minification
+* SCSS
+   * Linting - stylelint
+   * Compiling - node-sass
+* HTML linting
+* Image compression
 * Debuging
   * Live reload
     *  On change of PHP/HTML/JS the page will be reloaded
     *  On change of SCSS and Images the content on the page will be replaced without reload of the whole page
     
   * Breakpoints through VS Code(for PHP)/Chrome(for ES6)
-* Image compression
-* SCSS compiling
+* Pre-commit hook - adds the staged files in the place of the current ones
+   * Linting - lints all staged files
+   * Testing - runs all tests(staged or not)
 
 
 # Prerequisites
@@ -48,6 +54,5 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 # Future plans
 
 1. Directory separation when working with frameworks
-2. Lint and test all staged files
-3. sFTP deployment trough Gulp
-4. Working with a remote server
+2. sFTP deployment trough Gulp
+3. Working with a remote server
