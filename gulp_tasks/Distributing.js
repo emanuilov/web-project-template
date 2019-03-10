@@ -15,7 +15,7 @@ export default class Distributing {
 	getStagedFilePaths() {
 		let filePaths = null;
 		if (process.argv.length > 4) {
-			filePaths = process.argv.slice(3, process.argv.length);
+			filePaths = process.argv.slice(4, process.argv.length);
 		}
 		return filePaths;
 	}

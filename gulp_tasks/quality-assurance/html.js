@@ -2,6 +2,7 @@ import gulp from 'gulp';
 import htmllint from 'gulp-htmllint';
 import fancyLog from 'fancy-log';
 import colors from 'ansi-colors';
+import Distributing from '../Distributing';
 
 export default class HTMLTasks {
 	constructor(dist, files) {
@@ -14,8 +15,12 @@ export default class HTMLTasks {
 	}
 
 	lint() {
+		let files = new Distributing(this.dist).getStagedFilePaths();
+		if (files == null) {
+			files = this.files.html;
+		}
 		return gulp
-			.src(this.files.html)
+			.src(files)
 			.pipe(htmllint({ config: '.htmllintrc.json', failOnError: true }, this.htmllintReporter));
 	}
 

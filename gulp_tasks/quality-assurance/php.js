@@ -1,6 +1,7 @@
 import gulp from 'gulp';
 import phplint from 'gulp-phplint';
 import phpunit from 'gulp-phpunit';
+import Distributing from '../Distributing';
 
 export default class PHPTasks {
 	constructor(dist, files) {
@@ -13,7 +14,11 @@ export default class PHPTasks {
 	}
 
 	lint() {
-		return gulp.src(this.files.phpLogic).pipe(phplint());
+		let files = new Distributing(this.dist).getStagedFilePaths();
+		if (files == null) {
+			files = this.files.php;
+		}
+		return gulp.src(files).pipe(phplint());
 	}
 
 	test() {
