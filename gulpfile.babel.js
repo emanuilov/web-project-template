@@ -1,11 +1,11 @@
 import gulp from 'gulp';
 import Debugging from './gulp_tasks/Debugging';
 import Distributing from './gulp_tasks/Distributing';
-import PHPTasks from './gulp_tasks/quality-assuarance/php';
-import JSTasks from './gulp_tasks/quality-assuarance/javascript';
-import HTMLTasks from './gulp_tasks/quality-assuarance/html';
-import SCSSTasks from './gulp_tasks/quality-assuarance/scss';
-import ImageTasks from './gulp_tasks/quality-assuarance/images';
+import PHPTasks from './gulp_tasks/quality-assurance/php';
+import JSTasks from './gulp_tasks/quality-assurance/javascript';
+import HTMLTasks from './gulp_tasks/quality-assurance/html';
+import SCSSTasks from './gulp_tasks/quality-assurance/scss';
+import ImageTasks from './gulp_tasks/quality-assurance/images';
 import watch from 'gulp-watch';
 
 const mainConfig = {
@@ -57,6 +57,10 @@ gulp.task('copy-html', function() {
 	return HTML.copy();
 });
 
+gulp.task('lint-html', function() {
+	return HTML.lint();
+});
+
 // SCSS
 gulp.task('transform-scss', function() {
 	return SCSS.transform();
@@ -94,11 +98,13 @@ gulp.task(
 	gulp.series(
 		'clean',
 		gulp.parallel(
+			'lint-php',
 			'copy-php',
+			'lint-html',
 			'copy-html',
 			'lint-js',
-			'lint-php',
 			'transform-js',
+			'lint-scss',
 			'transform-scss',
 			'minify-images',
 			'watch',
@@ -111,11 +117,13 @@ gulp.task(
 	gulp.series(
 		'clean',
 		gulp.parallel(
+			'lint-php',
 			'copy-php',
+			'lint-html',
 			'copy-html',
 			'lint-js',
-			'lint-php',
 			'transform-js',
+			'lint-scss',
 			'transform-scss',
 			'minify-images'
 		),
