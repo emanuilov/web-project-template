@@ -81,9 +81,9 @@ gulp.task('minify-images', function() {
 
 // Debugging
 gulp.task('watch', function() {
-	watch(mainConfig.files.php, gulp.series('lint-php', 'copy-php'));
+	watch(mainConfig.files.php, gulp.series('copy-php'));
 	watch(mainConfig.files.html, gulp.series('copy-html'));
-	watch(mainConfig.files.html, gulp.parallel('lint-js', 'transform-js'));
+	watch(mainConfig.files.html, gulp.parallel('transform-js'));
 	watch(mainConfig.files.scss, gulp.series('transform-scss'));
 	watch(mainConfig.files.img, gulp.series('minify-images'));
 });
@@ -102,13 +102,9 @@ gulp.task(
 	gulp.series(
 		'clean',
 		gulp.parallel(
-			'lint-php',
 			'copy-php',
-			'lint-html',
 			'copy-html',
-			'lint-js',
 			'transform-js',
-			'lint-scss',
 			'transform-scss',
 			'minify-images',
 			'watch',

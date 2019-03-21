@@ -3,6 +3,7 @@
 	"rules": {
 		"indentation": "tab",
 		"number-leading-zero": "always",
-		"no-missing-end-of-source-newline": true
+		"no-missing-end-of-source-newline": true,
+		"no-descending-specificity": null
 	}
 }

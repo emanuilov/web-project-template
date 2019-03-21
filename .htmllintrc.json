@@ -1,4 +1,5 @@
 {
 	"indent-style": "tabs",
-	"line-end-style": false
+	"line-end-style": false,
+	"id-class-style": "dash"
 }
