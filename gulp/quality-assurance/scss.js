@@ -14,7 +14,7 @@ export default class SCSSTasks {
 	transform() {
 		return gulp
 			.src(this.files.scss)
-			.pipe(sass().on('error', sass.logError))
+			.pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
 			.pipe(
 				autoprefixer({
 					browsers: ['last 5 versions']
