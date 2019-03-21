@@ -15,7 +15,7 @@ const mainConfig = {
 			html: ['./src/**/*.html', '!./src/js', '!./src/img', '!./src/css'],
 			js: './src/js/**/*.js',
 			scss: './src/sass/**/*.scss',
-			img: './src/img/*',
+			img: './src/img/**/*',
 			without: {
 				phpTests: ['!./src/**/*.spec.php', '!./src/**/*.test.php'],
 				jsTests: './src/js/**/!(*.spec.js|*.test.js)',
