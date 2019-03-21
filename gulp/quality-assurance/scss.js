@@ -1,6 +1,7 @@
 import gulp from 'gulp';
 import sass from 'gulp-sass';
 import autoprefixer from 'gulp-autoprefixer';
+import concat from 'gulp-concat';
 import stylelint from 'gulp-stylelint';
 import browserSync from 'browser-sync';
 import Distributing from '../Distributing';
@@ -20,6 +21,7 @@ export default class SCSSTasks {
 					browsers: ['last 5 versions']
 				})
 			)
+			.pipe(concat('style.css'))
 			.pipe(gulp.dest(this.dist + '/css'))
 			.pipe(browserSync.stream({ match: '**/*.css' }));
 	}
