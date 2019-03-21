@@ -11,8 +11,8 @@ import watch from 'gulp-watch';
 const mainConfig = {
 		dist: './dist',
 		files: {
-			php: ['./src/**/*.php', '!./src/js', '!./src/img', '!./src/css'],
-			html: ['./src/**/*.html', '!./src/js', '!./src/img', '!./src/css'],
+			php: './src/**/*.php',
+			html: './src/**/*.html',
 			js: './src/js/**/*.js',
 			scss: './src/sass/**/*.scss',
 			img: './src/img/**/*',
