@@ -3,13 +3,18 @@ import del from 'del';
 import process from 'process';
 
 export default class Distributing {
-	constructor(dist) {
+	constructor(dist, files) {
 		this.dist = dist;
+		this.files = files;
 	}
 
 	clean() {
 		del.sync([this.dist]);
 		return gulp.src('/');
+	}
+
+	copyServerConfig() {
+		return gulp.src(this.files.serverConfig, { allowEmpty: true }).pipe(gulp.dest(this.dist));
 	}
 
 	getStagedFilePaths() {

@@ -11,7 +11,7 @@ import watch from 'gulp-watch';
 const mainConfig = {
 		dist: './dist',
 		files: {
-			php: './src/**/*.php',
+			php: ['./src/**/*.php'],
 			html: './src/**/*.html',
 			js: './src/js/**/*.js',
 			scss: './src/sass/**/*.scss',
@@ -20,7 +20,8 @@ const mainConfig = {
 				phpTests: ['!./src/**/*.spec.php', '!./src/**/*.test.php'],
 				jsTests: './src/js/**/!(*.spec.js|*.test.js)',
 				jsTestsSync: './src/js/**/!(*.spec.js|*.test.js|browser-sync.js)'
-			}
+			},
+			serverConfig: ['./src/**/.htaccess', './src/robots.txt']
 		}
 	},
 	PHP = new PHPTasks(mainConfig.dist, mainConfig.files),
@@ -28,7 +29,7 @@ const mainConfig = {
 	HTML = new HTMLTasks(mainConfig.dist, mainConfig.files),
 	SCSS = new SCSSTasks(mainConfig.dist, mainConfig.files),
 	Images = new ImageTasks(mainConfig.dist, mainConfig.files),
-	Distr = new Distributing(mainConfig.dist);
+	Distr = new Distributing(mainConfig.dist, mainConfig.files);
 
 // PHP
 gulp.task('copy-php', function() {
@@ -79,13 +80,19 @@ gulp.task('minify-images', function() {
 	return Images.minify();
 });
 
+// Config
+gulp.task('copy-config', function() {
+	return Distr.copyServerConfig();
+});
+
 // Debugging
 gulp.task('watch', function() {
-	watch(mainConfig.files.php, gulp.series('copy-php'));
-	watch(mainConfig.files.html, gulp.series('copy-html'));
-	watch(mainConfig.files.html, gulp.parallel('transform-js'));
-	watch(mainConfig.files.scss, gulp.series('transform-scss'));
-	watch(mainConfig.files.img, gulp.series('minify-images'));
+	watch(mainConfig.files.php, 'copy-php');
+	watch(mainConfig.files.html, 'copy-html');
+	watch(mainConfig.files.html, 'transform-js');
+	watch(mainConfig.files.scss, 'transform-scss');
+	watch(mainConfig.files.img, 'minify-images');
+	watch(mainConfig.files.serverConfig, 'copy-config');
 });
 
 gulp.task('browser-sync', function() {
@@ -102,6 +109,7 @@ gulp.task(
 	gulp.series(
 		'clean',
 		gulp.parallel(
+			'copy-config',
 			'copy-php',
 			'copy-html',
 			'transform-js',
@@ -117,6 +125,7 @@ gulp.task(
 	gulp.series(
 		'clean',
 		gulp.parallel(
+			'copy-config',
 			'lint-php',
 			'copy-php',
 			'lint-html',
