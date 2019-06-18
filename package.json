@@ -68,6 +68,7 @@
 		"gulp-jest": "^4.0.2",
 		"gulp-phplint": "^0.9.0",
 		"gulp-phpunit": "^0.26.0",
+		"gulp-rsync": "0.0.8",
 		"gulp-sass": "^4.0.2",
 		"gulp-sourcemaps": "^2.6.5",
 		"gulp-stylelint": "^8.0.0",

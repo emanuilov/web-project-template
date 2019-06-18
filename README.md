@@ -26,6 +26,7 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 * Pre-commit hook - adds the staged files in the place of the current ones
    * Linting - lints all staged files
    * Testing - runs all tests(staged or not)
+ * SFTP synchronisation on build via rsync(An additional setup may be required for Windows, see below)
 
 
 # Prerequisites
@@ -34,6 +35,12 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 3. [Composer](https://getcomposer.org/download/) 
 4. [NPM](https://nodejs.org/en/)
 5. Open this directory and a terminal and run `npm install -g yarn;npm install;composer require --dev phpunit/phpunit ^8`
+
+# Setting up SFTP sync on Windows ()
+#### If you get this error when using rsync via cygwin - `gulp-rsync: rsync error: error in rsync protocol data stream (code 12) at io.c(226)` do the following:
+1. Download any Linux subsystem for Linux
+2. Open the bash terminal and install rsync
+3. Open `./node_modules/gulp-rsync/rsync.js` and replace the array in the spawn command for Windows(line 85) with this - `['/s', '/c', '"bash -c -i \"' + command + ' && exit\""']`
 
 # Starting a new project
 1. Set the correct project name, version and git link in `package.json`
@@ -54,5 +61,4 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 # Future plans
 
 1. Directory separation when working with frameworks
-2. sFTP deployment trough Gulp
-3. Working with a remote server
+2. Working with a remote server

@@ -22,6 +22,13 @@ const mainConfig = {
 				jsTestsSync: './src/js/**/!(*.spec.js|*.test.js|browser-sync.js)'
 			},
 			serverConfig: ['./src/**/.htaccess', './src/robots.txt']
+		},
+		ssh: {
+			root: 'dist',
+			hostname: '',
+			username: '',
+			destination: '',
+			chmod: 'ugo=rwX'
 		}
 	},
 	PHP = new PHPTasks(mainConfig.dist, mainConfig.files),
@@ -29,7 +36,7 @@ const mainConfig = {
 	HTML = new HTMLTasks(mainConfig.dist, mainConfig.files),
 	SCSS = new SCSSTasks(mainConfig.dist, mainConfig.files),
 	Images = new ImageTasks(mainConfig.dist, mainConfig.files),
-	Distr = new Distributing(mainConfig.dist, mainConfig.files);
+	Distr = new Distributing(mainConfig.dist, mainConfig.files, mainConfig.ssh);
 
 // PHP
 gulp.task('copy-php', function() {
@@ -85,6 +92,11 @@ gulp.task('copy-config', function() {
 	return Distr.copyServerConfig();
 });
 
+// Deploy
+gulp.task('deploy', function() {
+	return Distr.deploy();
+});
+
 // Debugging
 gulp.task('watch', function() {
 	watch(mainConfig.files.php, 'copy-php');
@@ -137,6 +149,7 @@ gulp.task(
 			'minify-images'
 		),
 		'test-js',
-		'test-php'
+		'test-php',
+		'deploy'
 	)
 );
