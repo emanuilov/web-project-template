@@ -10,3 +10,6 @@
 
 # Jest
 /coverage
+
+# SFTP sync
+/config.js

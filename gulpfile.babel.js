@@ -7,6 +7,7 @@ import HTMLTasks from './gulp/quality-assurance/html';
 import SCSSTasks from './gulp/quality-assurance/scss';
 import ImageTasks from './gulp/quality-assurance/images';
 import watch from 'gulp-watch';
+import sshData from './config';
 
 const mainConfig = {
 		dist: './dist',
@@ -23,13 +24,7 @@ const mainConfig = {
 			},
 			serverConfig: ['./src/**/.htaccess', './src/robots.txt']
 		},
-		ssh: {
-			root: 'dist',
-			hostname: '',
-			username: '',
-			destination: '',
-			chmod: 'ugo=rwX'
-		}
+		ssh: sshData
 	},
 	PHP = new PHPTasks(mainConfig.dist, mainConfig.files),
 	JavaScript = new JSTasks(mainConfig.dist, mainConfig.files),

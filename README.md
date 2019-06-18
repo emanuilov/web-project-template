@@ -36,12 +36,6 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 4. [NPM](https://nodejs.org/en/)
 5. Open this directory and a terminal and run `npm install -g yarn;npm install;composer require --dev phpunit/phpunit ^8`
 
-# Setting up SFTP sync on Windows ()
-#### If you get this error when using rsync via cygwin - `gulp-rsync: rsync error: error in rsync protocol data stream (code 12) at io.c(226)` do the following:
-1. Download any Linux subsystem for Linux
-2. Open the bash terminal and install rsync
-3. Open `./node_modules/gulp-rsync/rsync.js` and replace the array in the spawn command for Windows(line 85) with this - `['/s', '/c', '"bash -c -i \"' + command + ' && exit\""']`
-
 # Starting a new project
 1. Set the correct project name, version and git link in `package.json`
 2. Set the correct repository for git
@@ -50,6 +44,18 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
     * Merge with the new repository `git pull --allow-unrelated-histories`
 3. To start the project run `gulp`, this will start a PHP server and enable live reload for the project.
 4. To start debugging follow the next section
+5. Setup your SSH config files in /User/.ssh
+6. Enter the correct connection details in a new file `./config.js` with the following structure:
+```
+{
+	root: 'dist',
+	hostname: '',
+	username: '',
+	destination: '',
+	chmod: 'ugo=rwX'
+}
+```
+`config.js` will not be tracked by git due to security reasons
 
 # Debugging in VS Code
 1. Install [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
@@ -58,7 +64,12 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 4. Follow the guide to in PHP Debug's overview section to enable the PHP debugging for your PHP server
 5. Run the `Server + Debugging` option from the debugger(you should not run gulp before that), the server takes time to start so when chrome opens up you will see an error message - "This site can't be reached"
 
-# Future plans
+# Setting up SFTP sync on Windows ()
+#### If you get this error when using rsync via cygwin - `gulp-rsync: rsync error: error in rsync protocol data stream (code 12) at io.c(226)` do the following:
+1. Download any Linux subsystem for Linux
+2. Open the bash terminal and install rsync
+3. Open `./node_modules/gulp-rsync/rsync.js` and replace the array in the spawn command for Windows(line 85) with this - `['/s', '/c', '"bash -c -i \"' + command + ' && exit\""']`
 
+# Future plans
 1. Directory separation when working with frameworks
 2. Working with a remote server
