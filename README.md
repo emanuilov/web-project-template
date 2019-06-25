@@ -70,6 +70,9 @@ This template has everything you need to start an HTML/SCSS/JavaScript/PHP web p
 2. Open the bash terminal and install rsync
 3. Open `./node_modules/gulp-rsync/rsync.js` and replace the array in the spawn command for Windows(line 85) with this - `['/s', '/c', '"bash -c -i \"' + command + ' && exit\""']`
 
+# IMPORTANT
+If you are developing a PHP project the browser-sync.js file should be deleted, otherwise it will cause events(such as click) to be called multiple times.
+
 # Future plans
 1. Directory separation when working with frameworks
 2. Working with a remote server
