@@ -96,7 +96,7 @@ gulp.task('deploy', function() {
 gulp.task('watch', function() {
 	watch(mainConfig.files.php, 'copy-php');
 	watch(mainConfig.files.html, 'copy-html');
-	watch(mainConfig.files.html, 'transform-js');
+	watch(mainConfig.files.js, 'transform-js');
 	watch(mainConfig.files.scss, 'transform-scss');
 	watch(mainConfig.files.img, 'minify-images');
 	watch(mainConfig.files.serverConfig, 'copy-config');
